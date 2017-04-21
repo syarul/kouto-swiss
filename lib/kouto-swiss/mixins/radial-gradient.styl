@@ -1,14 +1,19 @@
 _ks-radial-gradient-processing( current-property, props )
     if( current-property[ 0 ] == "background-image" )
         steps = ()
+
         for prop in props
-            if( prop is a "color" )
+            if( prop is a "color")
+                push( steps, join( " ", prop ) )
+            if( typeof(prop) == 'unit')
+                push( steps, join( " ", prop ) )
+            if( typeof(prop) == 'ident')
                 push( steps, join( " ", prop ) )
         add-property( "background-image", unquote( "-webkit-radial-gradient(" + join( ",", steps ) + ")" ) )
         add-property( "background-image", unquote( "-moz-radial-gradient(" + join( ",", steps ) + ")" ) )
         add-property( "background-image", unquote( "-ms-radial-gradient(" + join( ",", steps ) + ")" ) )
         add-property( "background-image", unquote( "-o-radial-gradient(" + join( ",", steps ) + ")" ) )
-        unquote( "radial-gradient(ellipse at center, " + join( ",", steps ) + ")" )
+        unquote( "radial-gradient(" + join( ",", steps ) + ")" )
     else
         error( "radial-gradient() must be used within a 'background-image' property" )
 
